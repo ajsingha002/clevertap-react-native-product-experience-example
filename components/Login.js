@@ -29,17 +29,39 @@ const Login = () => {
                 }
             });
         }
+        else if(eventName==='CleverTapInboxDidInitialize') {
+            console.log("App Inbox Initialized");
+            CleverTap.getInboxMessageCount((err, res) => {
+                console.log('Total Messages: ', res, err);
+            });
+        }
+        else if(eventName==='CleverTapInboxMessagesDidUpdate') {
+            console.log("App Inbox Updated");
+            CleverTap.getInboxMessageCount((err, res) => {
+                console.log('Total Messages: ', res, err);
+            });
+        }
     }
 
-    CleverTap.fetch();
+    //CleverTap.fetch();
+
+    CleverTap.onUserLogin({
+        "Identity": "445566",
+        "Email": "arghareact@testing.com",
+        "Name": "Arghajyoti Singha"
+    }, (res, err) => {
+        console.log('User Logged in', res, err);
+    });
+
+    CleverTap.initializeInbox();
 
     useEffect(()=>{
         CleverTap.addListener(CleverTap.CleverTapProfileDidInitialize, (event) => { _handleCleverTapEvent(CleverTap.CleverTapProfileDidInitialize, event); });
-        CleverTap.addListener(CleverTap.CleverTapProfileSync, (event) => { _handleCleverTapEvent(CleverTap.CleverTapProfileSync, ev ent); });
+        CleverTap.addListener(CleverTap.CleverTapProfileSync, (event) => { _handleCleverTapEvent(CleverTap.CleverTapProfileSync, event); });
         CleverTap.addListener(CleverTap.CleverTapInAppNotificationDismissed, (event) => { _handleCleverTapEvent(CleverTap.CleverTapInAppNotificationDismissed, event); });
-        CleverTap.addListener(CleverTap.CleverTapInboxDidInitialize, (event) => { _handleCleverTapInbox(CleverTap.CleverTapInboxDidInitialize,event); });
-        CleverTap.addListener(CleverTap.CleverTapInboxMessagesDidUpdate, (event) => { _handleCleverTapInbox(CleverTap.CleverTapInboxMessagesDidUpdate,event); });
-        CleverTap.addListener(CleverTap.CleverTapInboxMessageButtonTapped, (event) => { _handleCleverTapInbox(CleverTap.CleverTapInboxMessageButtonTapped,event); });
+        CleverTap.addListener(CleverTap.CleverTapInboxDidInitialize, (event) => { _handleCleverTapEvent(CleverTap.CleverTapInboxDidInitialize,event); });
+        CleverTap.addListener(CleverTap.CleverTapInboxMessagesDidUpdate, (event) => { _handleCleverTapEvent(CleverTap.CleverTapInboxMessagesDidUpdate,event); });
+        CleverTap.addListener(CleverTap.CleverTapInboxMessageButtonTapped, (event) => { _handleCleverTapEvent(CleverTap.CleverTapInboxMessageButtonTapped,event); });
         CleverTap.addListener(CleverTap.CleverTapDisplayUnitsLoaded, (event) => { _handleCleverTapDisplayUnitsLoaded(CleverTap.CleverTapDisplayUnitsLoaded,event); });
         CleverTap.addListener(CleverTap.CleverTapInAppNotificationButtonTapped, (event) => { _handleCleverTapEvent(CleverTap.CleverTapInAppNotificationButtonTapped,event); });
         CleverTap.addListener(CleverTap.CleverTapFeatureFlagsDidUpdate, (event) => { _handleCleverTapEvent(CleverTap.CleverTapFeatureFlagsDidUpdate,event); });

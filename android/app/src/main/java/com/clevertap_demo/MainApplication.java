@@ -14,6 +14,7 @@ import java.util.List;
 
 import com.clevertap.android.sdk.ActivityLifecycleCallback;
 import com.clevertap.android.sdk.CleverTapAPI;
+import android.app.NotificationManager;
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -49,6 +50,8 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
     initializeFlipper(this, getReactNativeHost().getReactInstanceManager());
+    CleverTapAPI clevertapDefaultInstance = CleverTapAPI.getDefaultInstance(getApplicationContext());
+    clevertapDefaultInstance.createNotificationChannel(getApplicationContext(),"PTTesting","PTTesting","PT Testing Channel", NotificationManager.IMPORTANCE_MAX,true);
   }
 
   /**
